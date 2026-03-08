@@ -1,3 +1,11 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+*.tsbuildinfo
+
 # Logs
 logs
 *.log
@@ -7,10 +15,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Environment and local overrides
+.env
+.env.*
+!.env.example
 *.local
+
+# Test coverage
+coverage
 
 # Editor directories and files
 .vscode/*
