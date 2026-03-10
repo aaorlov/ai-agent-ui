@@ -62,7 +62,7 @@ export function Header() {
         {activeChat && !isSearch && (
           <DropdownMenu>
             <DropdownMenuTrigger
-              className="inline-flex size-8 shrink-0 items-center justify-center rounded-md hover:bg-muted"
+              className="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md hover:bg-muted"
               aria-label="Chat options"
             >
               <MoreHorizontal className="size-5" />

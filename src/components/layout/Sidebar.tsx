@@ -95,12 +95,18 @@ export function Sidebar() {
       className="flex h-full flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground transition-[width] duration-200"
       style={{ width }}
     >
-      <div className="flex h-14 shrink-0 items-center gap-1 border-b border-sidebar-border px-2">
+      <div
+        className={cn(
+          "flex h-14 shrink-0 items-center border-b border-sidebar-border",
+          sidebarCollapsed ? "justify-center px-0" : "gap-1 px-2"
+        )}
+      >
         <Button
           variant="ghost"
           size="icon"
           onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
           aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          className={sidebarCollapsed ? "size-10" : ""}
         >
           <Menu className="size-5" />
         </Button>
@@ -115,6 +121,23 @@ export function Sidebar() {
           </Button>
         )}
       </div>
+
+      {sidebarCollapsed && (
+        <>
+          <div className="flex shrink-0 justify-center py-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleNewChat}
+              aria-label="New chat"
+              className="size-10"
+            >
+              <PenSquare className="size-5" />
+            </Button>
+          </div>
+          <div className="min-h-0 flex-1" />
+        </>
+      )}
 
       {!sidebarCollapsed && (
         <>
@@ -139,8 +162,10 @@ export function Sidebar() {
                   <div
                     key={chat.id}
                     className={cn(
-                      "group flex items-center gap-1 rounded-lg pr-1",
-                      activeChatId === chat.id && "bg-sidebar-accent text-sidebar-accent-foreground"
+                      "group flex min-h-[2.5rem] w-full items-center gap-1 rounded-lg px-1 pr-1",
+                      "hover:bg-sidebar-accent",
+                      activeChatId === chat.id &&
+                        "bg-[var(--sidebar-selected)] border border-[var(--sidebar-selected-border)] text-[var(--sidebar-selected-foreground)]"
                     )}
                   >
                     {renamingId === chat.id ? (
@@ -182,7 +207,7 @@ export function Sidebar() {
                       <>
                         <Link
                           to={`/app/${chat.id}`}
-                          className="flex min-w-0 flex-1 items-center gap-2 rounded-lg py-2 pl-2 text-left text-sm hover:bg-sidebar-accent/80"
+                          className="flex min-w-0 flex-1 items-center gap-2 rounded-md py-2 pl-1.5 text-left text-sm"
                           onClick={() => setActiveChat(chat.id)}
                         >
                           {chat.pinned && (
@@ -192,7 +217,7 @@ export function Sidebar() {
                         </Link>
                         <DropdownMenu>
                           <DropdownMenuTrigger
-                            className="inline-flex size-6 shrink-0 items-center justify-center rounded opacity-0 group-hover:opacity-100 data-[state=open]:opacity-100 hover:bg-sidebar-accent"
+                            className="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded opacity-0 group-hover:opacity-100 data-[state=open]:opacity-100 hover:bg-transparent"
                             aria-label="Chat menu"
                           >
                             <MoreHorizontal className="size-4" />
@@ -240,7 +265,7 @@ export function Sidebar() {
           <div className="shrink-0 border-t border-sidebar-border p-2">
             <DropdownMenu>
               <DropdownMenuTrigger
-                className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-2 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                 aria-label="Settings & help"
               >
                 <Settings className="size-4 shrink-0" />
@@ -280,10 +305,10 @@ export function Sidebar() {
       )}
 
       {sidebarCollapsed && (
-        <div className="shrink-0 border-t border-sidebar-border p-2">
+        <div className="flex shrink-0 justify-center border-t border-sidebar-border p-2">
           <DropdownMenu>
             <DropdownMenuTrigger
-              className="flex size-full min-h-10 items-center justify-center rounded-lg text-sidebar-foreground hover:bg-sidebar-accent"
+              className="flex size-10 cursor-pointer items-center justify-center rounded-lg text-sidebar-foreground hover:bg-sidebar-accent"
               aria-label="Settings & help"
             >
               <Settings className="size-5" />
