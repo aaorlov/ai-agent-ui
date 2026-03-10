@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ChatProvider } from "@/contexts/chat-context";
+import { ThemeProvider } from "@/contexts/theme-context";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ChatPage } from "@/pages/ChatPage";
 import { SearchPage } from "@/pages/SearchPage";
@@ -7,7 +8,8 @@ import { SearchPage } from "@/pages/SearchPage";
 function App() {
   return (
     <BrowserRouter>
-      <ChatProvider>
+      <ThemeProvider>
+        <ChatProvider>
         <Routes>
           <Route path="/" element={<Navigate to="/app" replace />} />
           <Route path="/app" element={<AppLayout />}>
@@ -18,7 +20,8 @@ function App() {
             <Route index element={<SearchPage />} />
           </Route>
         </Routes>
-      </ChatProvider>
+        </ChatProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

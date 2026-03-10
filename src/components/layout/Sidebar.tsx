@@ -9,6 +9,9 @@ import {
   Share2,
   Pencil,
   Trash2,
+  Settings,
+  Sun,
+  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +19,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
+import { useTheme, type Theme } from "@/contexts/theme-context";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { useChat } from "@/contexts/chat-context";
@@ -40,6 +49,7 @@ export function Sidebar() {
     pinChat,
     unpinChat,
   } = useChat();
+  const { theme, setTheme } = useTheme();
   const pinnedCount = sortedChats.filter((c: { pinned: boolean }) => c.pinned).length;
   const canPinMore = pinnedCount < 3;
   const [renamingId, setRenamingId] = useState<string | null>(null);
@@ -226,7 +236,88 @@ export function Sidebar() {
               </div>
             </ScrollArea>
           </div>
+
+          <div className="shrink-0 border-t border-sidebar-border p-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                aria-label="Settings & help"
+              >
+                <Settings className="size-4 shrink-0" />
+                <span className="truncate">Settings & help</span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" side="top" className="w-56">
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <Sun className="mr-2 size-4" />
+                    Theme
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuRadioGroup
+                      value={theme}
+                      onValueChange={(value) => setTheme(value as Theme)}
+                    >
+                      <DropdownMenuRadioItem value="system">
+                        System
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="light">
+                        Light
+                      </DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="dark">
+                        Dark
+                      </DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuItem disabled>
+                  <HelpCircle className="mr-2 size-4" />
+                  Help
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </>
+      )}
+
+      {sidebarCollapsed && (
+        <div className="shrink-0 border-t border-sidebar-border p-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              className="flex size-full min-h-10 items-center justify-center rounded-lg text-sidebar-foreground hover:bg-sidebar-accent"
+              aria-label="Settings & help"
+            >
+              <Settings className="size-5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" side="right" className="w-56">
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Sun className="mr-2 size-4" />
+                  Theme
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuRadioGroup
+                    value={theme}
+                    onValueChange={(value) => setTheme(value as Theme)}
+                  >
+                    <DropdownMenuRadioItem value="system">
+                      System
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="light">
+                      Light
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="dark">
+                      Dark
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuItem disabled>
+                <HelpCircle className="mr-2 size-4" />
+                Help
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       )}
     </aside>
   );
